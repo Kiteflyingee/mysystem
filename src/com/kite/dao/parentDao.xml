@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ParentNS">
+	<resultMap type="com.kite.entity.Parent" id="parent">
+		<id column="p_id" property="id" />
+		<result property="name" column="p_name" />
+		<result property="job" column="job" />
+		<result property="company" column="company" />
+		<result property="mobile" column="mobile" />
+		<result property="relation" column="relation" />
+		<result property="address" column="address" />
+	</resultMap>
+	<insert id="insertParent" parameterType="com.kite.entity.Parent">
+		INSERT INTO
+		parentinfo(p_name,job,company,mobile,relation,address,s_id)
+		VALUES(#{name},#{job},#{company},#{mobile},#{relation},#{address},#{student.id})
+	</insert>
+	<select id="findParents" resultMap="parent" parameterType="int">
+		SELECT * FROM parentinfo p WHERE s_id=#{student_id}
+	</select>
+	<update id="updateParent" parameterType="com.kite.entity.Parent">
+		UPDATE parentinfo SET
+		p_name=#{name},mobile=#{mobile},job=#{job},address=#{address},relation=#{relation},company=#{company}
+		WHERE p_id=#{id}
+	</update>
+	<delete id="deleteParent" parameterType="int">
+		DELETE FROM parentinfo
+		WHERE p_id=#{id}
+	</delete>
+</mapper>

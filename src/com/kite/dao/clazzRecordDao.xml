@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ClazzRecordNS">
+	<resultMap type="com.kite.entity.ClazzRecord" id="clazzRecord">
+		<id column="id" property="id" />
+		<result column="lasthours" property="lasthours" />
+		<result column="classhours" property="classhours" />
+		<result column="signupdate" property="signupdate" />
+		<association property="clazzinfo" resultMap="ClazzNS.clazz"></association>
+		<association property="student"  resultMap="StudentNS.student"></association>
+	</resultMap>
+	<insert id="insertClazzRecord" parameterType="com.kite.entity.ClazzRecord">
+		INSERT INTO
+		studentclass(c_id,s_id,classhours,lasthours,signupdate)
+		VALUES(#{clazzinfo.id},#{student.id},#{classhours},#{classhours},#{signupdate})
+	</insert>
+
+	<delete id="deleteClazzRecordById" parameterType="int">
+		DELETE FROM
+		studentclass WHERE id=#{id}
+	</delete>
+
+	<update id="updateClazzRecord" parameterType="com.kite.entity.ClazzRecord">
+		UPDATE studentclass
+		SET
+		c_id=#{clazzinfo.id},classhours=#{classhours},lasthours=#{lasthours},signupdate=#{signupdate}
+		where id=#{id}
+	</update>
+
+	<!--	更新课次-->
+	<update id="updateLastHours" parameterType="int">
+		UPDATE studentclass
+		SET lasthours=(lasthours-1) WHERE id=#{id};
+	</update>
+
+	<!--	找出学生的所有课次信息-->
+	<select id="findClazzRecords" resultMap="clazzRecord"
+		parameterType="int">
+		SELECT * FROM studentclass sc
+		JOIN student s ON
+		sc.s_id=s.s_id
+		JOIN classinfo c ON c.c_id=sc.c_id
+		WHERE sc.s_id=#{s_id}
+	</select>
+
+	<select id="findClazzRecordById" parameterType="int" resultMap="clazzRecord">
+		SELECT * FROM studentclass sc
+		JOIN student s ON sc.s_id=s.s_id
+		JOIN classinfo c ON c.c_id=sc.c_id
+		WHERE id=#{id}
+	</select>
+</mapper>

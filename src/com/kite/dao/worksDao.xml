@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="WorkNS">
+	<!-- 这里的结果集要显示学生的信息，需要在页面做展示用 -->
+	<resultMap type="com.kite.entity.Work" id="work">
+		<id column="w_id" property="id" />
+		<result column="w_name" property="name" />
+		<result column="w_comment" property="w_comment" />
+		<result column="pubtime" property="pubtime" />
+		<result column="filename" property="filename" />
+		<association column="s_id" property="student" resultMap="StudentNS.student" />
+	</resultMap>
+
+	<insert id="insertWork" parameterType="com.kite.entity.Work">
+		INSERT INTO
+		works(w_id,s_id,w_name,pubtime,w_comment,filename)
+		VALUES(#{id},#{student.id},#{name},#{pubtime},#{w_comment},#{filename})
+	</insert>
+
+	<select id="findWorks" parameterType="com.kite.entity.QueryWorks"
+		resultMap="work">
+		SELECT * FROM works w JOIN student s ON w.s_id=s.s_id
+		AND
+		w.s_id=#{s_id} LIMIT
+		#{index},#{size}
+	</select>
+
+	<select id="findWorkById" parameterType="int" resultMap="work">
+		SELECT *
+		FROM works w JOIN student s ON s.s_id=w.s_id AND w.w_id=#{id}
+	</select>
+
+	<select id="getTotalNum" resultType="int" parameterType="int">
+		SELECT COUNT(*) FROM works WHERE s_id=#{s_id}
+	</select>
+
+
+	<delete id="deleteWorkById" parameterType="int">
+		DELETE FROM works
+		WHERE w_id=#{id}
+	</delete>
+</mapper>

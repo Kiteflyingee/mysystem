@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/mvc
+	   http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context
+	   http://www.springframework.org/schema/context/spring-context.xsd
+     ">
+
+	<!-- 配置c3p0 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/studiosystem" />
+		<property name="user" value="root" />
+		<property name="password" value="root" />
+		<property name="initialPoolSize" value="3"></property>
+		<property name="maxPoolSize" value="10"></property>
+		<property name="maxStatements" value="100"></property>
+		<property name="acquireIncrement" value="2"></property>
+	</bean>
+
+	<!-- 2.配置SqlSessionFactoryBean(即替代MyBatisUtil工具类的作用) -->
+	<bean name="SqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 注入数据源和mybatis的配置路径 -->
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:mybatis.xml"></property>
+	</bean>
+
+	<!-- 3.配置事务管理器类(Mybatis底层用的JDBC，所以引用jdbc的事务管理器类) -->
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<!--注入数据源 -->
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<!-- spring容器扫描mapper的文件 mybatis-spring-x.x.jar -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="dao"></property>
+		<property name="sqlSessionFactoryBeanName" value="SqlSessionFactoryBean"></property>
+	</bean>
+
+	<!-- 配置事务增强（如何管理事务） -->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="*" read-only="false" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 配置aop，指定拦截那些方法+应用上面的事务增强 -->
+	<!-- 配置service，service写完再配置 -->
+	<aop:config>
+		<!-- 设置切入点 -->
+		<aop:pointcut id="pt" expression="execution(* com.kite.service.*.*(*))" />
+		<!-- 设置通知 -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="pt" />
+	</aop:config>
+
+	<!-- 处理文件上传 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10485760" />
+	</bean>
+
+	<context:component-scan base-package="com.kite" />
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/manager/**" />
+			<bean class="com.kite.controller.UserInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	<mvc:annotation-driven />
+</beans>
+

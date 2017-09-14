@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<!-- 配置实体映射 -->
+	<mappers>
+		<mapper resource="com/kite/dao/studentDao.xml" />
+		<mapper resource="com/kite/dao/adminDao.xml" />
+		<mapper resource="com/kite/dao/clazzDao.xml" />
+		<mapper resource="com/kite/dao/parentDao.xml" />
+		<mapper resource="com/kite/dao/worksDao.xml" />
+		<mapper resource="com/kite/dao/clazzRecordDao.xml" />
+	</mappers>
+</configuration>

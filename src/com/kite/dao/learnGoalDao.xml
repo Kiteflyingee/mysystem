@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="LearnGoalNS">
+	<resultMap type="com.kite.entity.LearnGoal" id="learnGoal">
+		<id column="id" property="id" />
+		<result column="t_comment" property="t_comment" />
+		<association property="images" resultMap="image"></association>
+		<association property="clazzrecord" resultMap="ClazzRecordNS.clazzRecord"></association>
+	</resultMap>
+
+	<resultMap type="com.kite.entity.Image" id="image"
+		autoMapping="true"></resultMap>
+
+	<!-- 查询所有的学习目标,右连接，以课次表为准，如果没有课次表，不用提学习进度，查找条件为 课次表的学生编号 -->
+	<select id="findLearnGoals" resultMap="learnGoal" parameterType="int">
+		SELECT * FROM learngoal lg RIGHT JOIN studentclass sc ON
+		lg.sc_id=sc.id
+		where sc.s_id=#{s_id}
+	</select>
+
+	<!-- 添加学习目标 -->
+	<insert id="insertLearnGoal" parameterType="com.kite.entity.LearnGoal">
+		insert into
+		learngoal(sc_id,imagepath_1,imagepath_2,imagepath_3,t_comment)
+		values(#{id},#{images.imagepath_1},#{images.imagepath_2},#{images.imagepath_3},#{t_comment})
+	</insert>
+
+	<!-- 更新学习目标 -->
+	<update id="updateLearnGoal" parameterType="com.kite.entity.LearnGoal">
+		UPDATE learngoal SET
+		<if test="sc_id!=null">
+		sc_id=#{sc_id},
+		</if>
+		imagepath_1=#{images.imagepath_1}
+		imagepath_2=#{images.imagepath_2}
+		imagepath_3=#{images.imagepath_3}
+		t_comment=#{t_comment}
+		WHERE id=#{id}
+	</update>
+
+
+	<!-- 删除学习目标 -->
+	<delete id="deleteLearnGoal" parameterType="int">
+
+	</delete>
+
+
+</mapper>

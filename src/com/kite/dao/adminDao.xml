@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AdminNS">
+	<resultMap type="com.kite.entity.Admin" id="admin">
+		<id property="username" column="username" />
+		<result property="password" column="password" />
+	</resultMap>
+
+	<select id="findAdmin" parameterType="string" resultMap="admin">
+		SELECT *
+		FROM admin WHERE username=#{username};
+	</select>
+</mapper>
