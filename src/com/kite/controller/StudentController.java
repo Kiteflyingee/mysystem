@@ -148,6 +148,8 @@ public class StudentController {
 	public String listParents(Model model, Integer id) {
 		try {
 			List<Parent> parents = parentService.getParents(id);
+			Student student = studentService.getStudentById(id);
+			model.addAttribute("student", student);
 			model.addAttribute("parents", parents);
 		} catch (Exception e) {
 			model.addAttribute("message", e.getMessage());
@@ -183,11 +185,14 @@ public class StudentController {
 	 * @param model
 	 * @param id
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping("showAddParent")
-	public String showAddParent(Model model, Integer id) {
+	public String showAddParent(Model model, Integer id) throws Exception {
 		/* 加入学生编号到页面，方便隐藏表单取 */
 		model.addAttribute("s_id", id);
+		Student student = studentService.getStudentById(id);
+		model.addAttribute("student", student);
 		return "/WEB-INF/jsp/addparent.jsp";
 	}
 
@@ -226,6 +231,8 @@ public class StudentController {
 			List<ClazzRecord> clazzRecords = clazzRecordService
 					.getClazzRecord(id);
 			model.addAttribute("clazzRecords", clazzRecords);
+			Student student = studentService.getStudentById(id);
+			model.addAttribute("student", student);
 			// 把学生的编号传递给jsp页面
 			model.addAttribute("s_id", id);
 		} catch (Exception e) {
@@ -256,9 +263,11 @@ public class StudentController {
 	}
 
 	@RequestMapping("showAddClazzRecord")
-	public String showAddClazzRecord(Model model, Integer s_id) {
+	public String showAddClazzRecord(Model model, Integer s_id) throws Exception {
 		// 添加表单预准备内容
 		model.addAttribute("s_id", s_id);
+		Student student = studentService.getStudentById(s_id);
+		model.addAttribute("student", student);
 		List<ClazzInfo> clazzes = clazzInfoService.getClazzIng();
 		model.addAttribute("clazzes", clazzes);
 		return "/WEB-INF/jsp/addclazzrecord.jsp";
@@ -284,11 +293,12 @@ public class StudentController {
 	}
 	
 	@RequestMapping("showEditClazzRecord")
-	public String showEditClazzRecord(Model model, Integer id) {
+	public String showEditClazzRecord(Model model, Integer id,String s_name) {
 		// 添加表单预准备内容
 		try {
 			ClazzRecord clazzrecord = clazzRecordService.getClazzRecordById(id);
 			List<ClazzInfo> clazzes = clazzInfoService.getClazzIng();
+			model.addAttribute("s_name", s_name);
 			model.addAttribute("clazzes", clazzes);
 			model.addAttribute("clazzrecord", clazzrecord);
 		} catch (Exception e) {
@@ -380,8 +390,10 @@ public class StudentController {
 	}
 	
 	@RequestMapping("showAddWork")
-	public String showAddWork(Model model,Integer s_id){
+	public String showAddWork(Model model,Integer s_id) throws Exception{
 		model.addAttribute("s_id", s_id);
+		Student student = studentService.getStudentById(s_id);
+		model.addAttribute("student", student);
 		return "/WEB-INF/jsp/addwork.jsp";
 	}
 	

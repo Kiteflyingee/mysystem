@@ -127,7 +127,7 @@ body {
 																	width : 600,
 																	height : 400,
 																	modal : true,
-																	title : '添加学生信息',
+																	title : '修改学生信息',
 																	content : '<iframe title="修改学生信息" height="100%" width="100%" src="${mypath}/main/showdetail.action?id='+row.id+'"></iframe>'
 																});
 											}
@@ -186,6 +186,7 @@ body {
 						});
 		$('#ss').searchbox({
 			searcher : function(value, name) {
+				//做查询学生信息的操作
 				alert(value + "," + name)
 			},
 			prompt : '请输入学生姓名',

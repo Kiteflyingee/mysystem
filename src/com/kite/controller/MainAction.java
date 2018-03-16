@@ -3,6 +3,7 @@ package com.kite.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kite.domain.QueryInfo;
+import com.kite.entity.ClazzInfo;
 import com.kite.entity.QueryResult;
 import com.kite.entity.Student;
 import com.kite.service.ClazzInfoService;
@@ -170,6 +172,63 @@ public class MainAction {
 		model.addAttribute("student", student);
 		/* 未完待写 */
 		return "/WEB-INF/newjsp/modifystudent.jsp";
+	}
+	
+	/**
+	 * 处理添加课程
+	 * 
+	 * @param model
+	 * @param clazz
+	 * @return
+	 */
+	@RequestMapping(value = "addClazz", method = RequestMethod.POST)
+	@ResponseBody
+	public String addClazz(ClazzInfo clazz) {
+		String message = "";
+		// 设置为上线状态
+		clazz.setStatus(1);
+		try {
+			clazzService.addClazz(clazz);
+			message = "添加成功";
+		} catch (Exception e) {
+			message = e.getMessage();
+		}
+		return message;
+	}
+	
+	/**
+	 * 处理刪除课程
+	 * 
+	 * @param model
+	 * @param clazz
+	 * @return
+	 */
+	@RequestMapping(value = "deleteclazz", method = RequestMethod.POST)
+	@ResponseBody
+	public String addClazz(Integer id) {
+		String message = "";
+		try {
+			
+			message = "添加成功";
+		} catch (Exception e) {
+			message = e.getMessage();
+		}
+		return message;
+	}
+	
+	/**
+	 * 显示所有课程信息
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/showclazz")
+	public @ResponseBody Object showClazz(Model model) {
+		List<ClazzInfo> list = clazzService.getAllClazz();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("total", list.size());
+		map.put("rows", list);
+		return map;
 	}
 
 }

@@ -29,6 +29,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
+  	<h1>${student.name }同学的信息:</h1>
+  
   <form action="manager/student/addWork.action" method="post" enctype="multipart/form-data">
   	<input type="hidden" name="s_id" value="${s_id }"/>
   	<table border="1">
@@ -42,7 +44,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		</tr>
   		<tr>
   		<td>发布时间<font color="red">(*)</font>：</td>
-  		<td><input id="dd" name="pubtime" class="easyui-datebox"></input></td>
+  		<td><input id="dd" name="pubtime" class="easyui-datebox"></input><font color="red">日期格式:MM/dd/yyyy，可以手动填写</font></td>
   		</tr>
   		<tr>
   		<td>图片<font color="red">(*)</font>：</td>

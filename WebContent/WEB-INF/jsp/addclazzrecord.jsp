@@ -39,6 +39,7 @@ function checkAdd() {
 	</head>
 
 	<body>
+	<h1>${student.name }同学的信息:</h1>
 		<form action="manager/student/addClazzRecord.action" method="post" />
 			<input type="hidden" name="s_id" value="${s_id }" />
 			<table>

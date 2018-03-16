@@ -59,7 +59,7 @@
 					<li><a
 						href="${mypath }/base/goToJsp/newjsp/liststudents.action"
 						title="学生信息管理">学生信息管理</a></li>
-					<li><a href="manager/main/showClazz.action" title="课程信息管理">课程信息管理</a></li>
+					<li><a href="${mypath }/base/goToJsp/newjsp/listclass.action" title="课程信息管理">课程信息管理</a></li>
 				</ul>
 			</div>
 			<div title="扩展功能"></div>

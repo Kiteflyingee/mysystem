@@ -23,8 +23,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
+  	<h1>${student.name }同学的信息:</h1>
+  
   <form action="manager/student/addParent.action" method="post">
   	<input type="hidden" name="s_id" value="${s_id }"/>
+  	
   	<table border="1">
   		<tr>
   		<td>姓名<font color="red">(*)</font>：</td>

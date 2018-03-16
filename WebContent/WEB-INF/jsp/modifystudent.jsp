@@ -38,6 +38,8 @@ function checkAdd() {
 }
 </script>
 	<body>
+		<h1>${student.name }同学的信息:</h1>
+	
 		<form action="${pageContext.request.contextPath }/${url }"
 			class="easyui-form" method="POST" id="userForm">
 			<table border="1">
@@ -76,7 +78,7 @@ function checkAdd() {
 					<td>
 						<input id="dd" name="brithday" class="easyui-datebox"
 							value="<fmt:formatDate pattern="MM/dd/yyyy"
-						value='${student.brithday }' />" required="required"></input>
+						value='${student.brithday }' />" required="required"><font color="red">日期格式:MM/dd/yyyy，可以手动填写</font></input>
 					</td>
 				</tr>
 				<tr>

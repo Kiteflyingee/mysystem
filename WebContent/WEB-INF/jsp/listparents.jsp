@@ -34,6 +34,8 @@ return flag;
   	尚未添加信息
   </c:if>
   <br/>
+  	<h1>${student.name }同学的信息:</h1>
+  
   <a href="manager/student/showAddParent.action?id=${s_id }">添加家长信息</a>
   <c:if test="${not empty parents}">
   	<div>

@@ -37,6 +37,7 @@ public class LoginAction {
 			cookie.setMaxAge(30 * 60);
 			response.addCookie(cookie);
 			return "redirect:/base/goToJsp/newjsp/main.action";
+//			return "redirect:/manager/main/index.action";
 		} else {
 			String message = "账号或密码错误,<a href='index.jsp'>重新登录</a>";
 			model.addAttribute("message", message);

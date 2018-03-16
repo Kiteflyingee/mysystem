@@ -39,6 +39,8 @@ return flag;
   </head>
   
   <body>
+  	<h1>${student.name }同学的信息:</h1>
+  
   	<a href="manager/student/showAddClazzRecord.action?s_id=${s_id}">添加课次</a>
     <c:if test="${not empty clazzRecords}">
     <table border="1" width="600">
@@ -58,7 +60,7 @@ return flag;
 		   		<td colspan="2">
 		   		<a href="manager/student/recordClazz.action?id=${clazzrecord.id}" onclick="javascript:return confirmY()">上课记录</a>
 		   		 &nbsp;<a href="manager/student/removeClazzRecord.action?id=${clazzrecord.id}" onclick="javascript:return confirmX()">删除</a>
-		   		 &nbsp;<a href="manager/student/showEditClazzRecord.action?id=${clazzrecord.id}">修改</a>
+		   		 &nbsp;<a href="manager/student/showEditClazzRecord.action?id=${clazzrecord.id}&s_name=${student.name}">修改</a>
 		   		</td>
 		   	</tr>
 		   </c:forEach>

@@ -40,6 +40,8 @@ function checkAdd() {
 	</head>
 
 	<body>
+		<h1>${s_name }同学的信息:</h1>
+	
 	<div><font color="red">在非必要的情况下请勿修改</font></div>
 		<form action="manager/student/editClazzRecord.action" method="post" />
 			<input type="hidden" name="s_id" value="${clazzrecord.student.id }" />
@@ -99,6 +101,7 @@ function checkAdd() {
 					<td>
 						<input id="dd" name="signupdate"
 							class="easyui-datebox" value='<fmt:formatDate pattern="MM/dd/yyyy" value="${clazzrecord.signupdate }"/>'></input>
+							<font color="red">日期格式:MM/dd/yyyy，可以手动填写</font>
 					</td>
 					<td>
 						请选择日期

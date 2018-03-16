@@ -57,7 +57,7 @@
 				<td>生日:<font color="red">(*)</font>
 				</td>
 				<td><input id="dd" name="brithday" class="easyui-datebox"
-					></input></td>
+					></input><font color="red">日期格式:MM/dd/yyyy，可以手动填写</font></td>
 			</tr>
 			<tr>
 				<td>学校:</td>

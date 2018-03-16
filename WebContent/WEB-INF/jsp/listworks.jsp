@@ -48,6 +48,8 @@ return flag;
 	</head>
 
 	<body>
+		<h1>${student.name }同学的信息:</h1>
+	
 		<a href="manager/student/showAddWork.action?s_id=${s_id }">添加作品</a>
 		<c:if test="${empty page.results}">
 			尚未添加数据
